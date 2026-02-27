@@ -16,14 +16,14 @@ export function ProductCard({ product }: ProductCardProps) {
     return (
         <div className="group flex flex-col cursor-pointer">
             <Link href={`/gorras/${product.id}`} className="block relative w-full aspect-square bg-[#F5F5F5] rounded-sm overflow-hidden mb-4">
-                {}
+                { }
                 <Image
                     src={product.images[0] || "/placeholder.jpg"}
                     alt={product.name}
                     fill
                     className="object-cover transition-opacity duration-500 group-hover:opacity-0"
                 />
-                {}
+                { }
                 {product.images[1] && (
                     <Image
                         src={product.images[1]}
@@ -52,9 +52,9 @@ export function ProductCard({ product }: ProductCardProps) {
                         e.preventDefault()
                         addItem(product)
                     }}
-                    className="w-full flex items-center justify-center gap-2 bg-black text-white font-bold uppercase tracking-wider py-3 text-sm hover:bg-gray-800 transition-colors"
+                    className="w-full flex items-center justify-center gap-1.5 md:gap-2 bg-black text-white font-bold uppercase tracking-wider py-2.5 md:py-3 text-[10px] md:text-sm hover:bg-gray-800 transition-colors"
                 >
-                    <ShoppingBag className="w-4 h-4" />
+                    <ShoppingBag className="w-3.5 h-3.5 md:w-4 md:h-4" />
                     Añadir a la bolsa
                 </button>
             </div>
