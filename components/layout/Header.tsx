@@ -1,0 +1,69 @@
+"use client"
+
+import Link from "next/link"
+import { ShoppingBag, Search, Heart, User } from "lucide-react"
+import { useCartStore } from "@/store/useCartStore"
+import { useEffect, useState } from "react"
+import { cn } from "@/lib/utils"
+
+export function Header() {
+    const [isScrolled, setIsScrolled] = useState(false)
+    const [mounted, setMounted] = useState(false)
+    const cartItemsCount = useCartStore((state) => state.totalItems())
+    const setIsOpen = useCartStore((state) => state.setIsOpen)
+
+    useEffect(() => {
+        setMounted(true)
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 0)
+        }
+        window.addEventListener("scroll", handleScroll)
+        return () => window.removeEventListener("scroll", handleScroll)
+    }, [])
+
+    return (
+        <header className={cn(
+            "fixed top-0 w-full z-50 transition-all duration-300",
+            isScrolled ? "bg-white/80 backdrop-blur-md border-b border-gray-100 py-4" : "bg-transparent py-6"
+        )}>
+            <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
+                { }
+                <Link href="/" className="text-2xl font-black tracking-tighter uppercase z-10">
+                    Hondumajes
+                </Link>
+
+                {}
+                <nav className="hidden md:flex items-center gap-8 font-medium text-sm tracking-wide">
+                    <Link href="/categorias/coleccion-urbana" className="hover:text-gray-500 transition-colors">Urbana</Link>
+                    <Link href="/categorias/deportes" className="hover:text-gray-500 transition-colors">Deportes</Link>
+                    <Link href="/categorias/limited" className="hover:text-gray-500 transition-colors">Edición Limitada</Link>
+                </nav>
+
+                {}
+                <div className="flex items-center gap-5 z-10">
+                    <button aria-label="Search" className="hover:opacity-70 transition-opacity">
+                        <Search className="w-5 h-5" />
+                    </button>
+                    <button aria-label="Favorites" className="hover:opacity-70 transition-opacity hidden sm:block">
+                        <Heart className="w-5 h-5" />
+                    </button>
+                    <button aria-label="Account" className="hover:opacity-70 transition-opacity hidden sm:block">
+                        <User className="w-5 h-5" />
+                    </button>
+                    <button
+                        aria-label="Cart"
+                        className="hover:opacity-70 transition-opacity relative"
+                        onClick={() => setIsOpen(true)}
+                    >
+                        <ShoppingBag className="w-5 h-5" />
+                        {mounted && cartItemsCount > 0 && (
+                            <span className="absolute -top-1 -right-2 bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                                {cartItemsCount}
+                            </span>
+                        )}
+                    </button>
+                </div>
+            </div>
+        </header>
+    )
+}
